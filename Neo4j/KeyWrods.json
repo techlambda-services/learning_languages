@@ -1,0 +1,9 @@
+{
+    "limit":"Limit Results",
+    "match":"Match Pattern",
+    "return":"Return Results",
+    "where":"Filter Results",
+    "CALL":"Call Procedure",
+    "YIELD":"Yield Results",
+    "WITH":"With Clause,"
+}

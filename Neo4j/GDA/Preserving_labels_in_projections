@@ -1,0 +1,83 @@
+// When label preservation matters
+// Use default monopartite (no label configuration) when:
+
+// All nodes genuinely represent the same entity type
+
+// Node labels don’t affect your analysis goals
+
+// You intentionally want to treat different node types as the same
+
+// Preserve labels (bipartite/multipartite) when:
+
+// You need to distinguish between node types
+
+// You’ll filter algorithms by node type (e.g., run only on Actors)
+
+// MATCH(source:Actor)-[r:ACTED_IN]-(target:Movie)
+// WITH gds.graph.project(
+// 'my_example_for_preserving_labels_in_graph',
+// source,
+// target,
+// {
+//     sourceNodeLabels:labels(source),
+//     targetNodeLabels:labels(target),
+//     relationshipType:type(r)
+
+// },
+// {}
+// ) as g
+// return g.graphName, g.nodeCount, g.relationshipCount
+
+/** Creating multipartite projections */
+// MATCH(source:Actor)-[r:ACTED_IN]-(target:Movie)
+// WHERE source:Actor AND target:Movie
+// WITH gds.graph.project(
+// 'my_example_for_movie_and_actor',
+// source,
+// target,
+// {
+//     sourceNodeLabels:labels(source),
+//     targetNodeLabels:labels(target),
+//     relationshipType:type(r)
+
+// },
+// {}
+// ) as g
+// return g.graphName, g.nodeCount, g.relationshipCount
+
+// MATCH (source)-[r]->(target) // (1)
+// WHERE source:Actor OR source:Movie OR source:User OR source:Genre AND target:Actor OR target:Movie OR target:User OR target:Genre // (2)
+// WITH gds.graph.project( // (3)
+//   'movies-network-multi', // (4)
+//   source, // (5)
+//   target, // (6)
+//   {
+//     sourceNodeLabels: labels(source), // (7)
+//     targetNodeLabels: labels(target), // (8)
+//     relationshipType: type(r) // (9)
+//   },
+//   {}
+// ) AS g
+// RETURN g.graphName, g.nodeCount, g.relationshipCount // (10)
+
+/** Running Node Similarity */
+// CALL gds.odeSimilarityn.write('user-rated-movie',{
+// writeRelationshipType:'SIMILAR',
+// writeProperty:'score'
+
+// })
+// YIELD nodesCompared,relationshipsWritten
+
+// // Drop all graph projections
+// CALL gds.graph.list()
+// YIELD graphName
+// CALL gds.graph.drop(graphName)
+// YIELD graphName AS droppedGraph;
+
+// // Remove SIMILAR relationships created in previous lessons
+// MATCH ()-[r:SIMILAR]->()
+// DELETE r;
+
+// // Return confirmation
+// RETURN "Sandbox reset complete" AS status
+
