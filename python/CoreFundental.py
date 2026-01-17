@@ -4,7 +4,8 @@
 ## 1. LITERALS DEMO 📦
 """
 def demo_literals():
-    print("\n📦 1. LITERALS (No Memory Box Needed)")
+    print("\n📦 1. LITERALS (No Memory Box Needed)Ishank")
+    
     print("─" * 45)
     
     shares = 100                    # Integer literal
